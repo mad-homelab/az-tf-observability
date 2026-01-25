@@ -1,15 +1,7 @@
-module "rg_create" {
-    source = "../../modules/resource-group"
-
-    service_name = "${var.service_name}"
-    deploy_location = "australiasoutheast"
-    environment = "${var.environment}"
-}
-
 resource "azurerm_log_analytics_workspace" "law_create" {
   name                = "${var.service_name}-law-${var.environment}"
   location            = module.rg_create.rg_location
-  resource_group_name = module.rg_create.rg_name
+  resource_group_name = module.rg_create.resource_group_name
   sku                 = "PerGB2018"
   retention_in_days   = 30
   daily_quota_gb      = 1
