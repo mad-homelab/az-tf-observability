@@ -20,7 +20,7 @@ env:
 
 jobs:
   terraform:
-    environment: baseline-dev
+    environment: dev
     runs-on: ubuntu-latest
 
     steps:
