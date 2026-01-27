@@ -3,10 +3,16 @@ variable "service_name" {
   description = "Name of service provided by resources."
 }
 
-variable "deploy_location" {
+variable "rg_location" {
   type        = string
   default     = "australiasoutheast"
-  description = "The Azure Region in which all resources in this example should be created."
+  description = "The Azure Region in which the RG exists."
+}
+
+variable "resource_location" {
+  type        = string
+  default     = "australiasoutheast"
+  description = "The Azure Region in which the Resource exists."
 }
 
 variable "environment" {
