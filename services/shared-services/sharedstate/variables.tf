@@ -26,6 +26,7 @@ variable "environment" {
 
 }
 
+
 variable "storage_account_name" {
         type = string
         description = "Use this to append any custom identifiers in the standard storage account name."
