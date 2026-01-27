@@ -1,4 +1,4 @@
-name: Terraform - Observability Core (Dev)
+name: Terraform - Shared Services (Dev)
 
 on:
   push:
