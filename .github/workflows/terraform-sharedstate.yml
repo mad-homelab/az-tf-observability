@@ -5,8 +5,9 @@ on:
     branches:
       - dev
     paths:
-      - services/shared-services/**
+      - services/shared-services/sharedstate/**
       - modules/**
+      - .github/workflows/terraform-sharedstate.yml
 
 permissions:
   id-token: write
@@ -33,16 +34,16 @@ jobs:
 
       - name: Terraform Init
         run: |
-          terraform -chdir=services/observability-core init \
+          terraform -chdir=services/shared-services init \
             -backend-config=backend.dev.hcl \
             -reconfigure
 
       - name: Terraform Plan
         run: |
-          terraform -chdir=services/observability-core plan \
+          terraform -chdir=services/shared-services plan \
             -var-file=env/dev.tfvars
 
       # - name: Terraform Apply
       #   run: |
-      #     terraform -chdir=services/observability-core apply \
+      #     terraform -chdir=services/shared-services apply \
       #       -var-file=env/dev.tfvars -auto-approve
