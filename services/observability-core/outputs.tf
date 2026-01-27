@@ -1,5 +1,5 @@
-output rg_name {
-    value = module.rg_create.rg_name
+output resource_group_name {
+    value = module.rg_create.resource_group_name
 }
 
 output rg_id {
