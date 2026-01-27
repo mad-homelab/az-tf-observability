@@ -9,6 +9,8 @@ on:
       - modules/**
       - .github/workflows/terraform-sharedstate.yml
 
+  workflow_dispatch:
+    
 permissions:
   id-token: write
   contents: read
