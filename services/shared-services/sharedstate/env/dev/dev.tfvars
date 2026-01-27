@@ -2,3 +2,4 @@ storage_account_name   = "madhlsharedstoragedev" # change to a globally unique n
 container_name       = "sharedservicestfstate"
 account_replication_type           = "LRS"
 service_name = "sharedservices"
+environment = "dev"
