@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - dev
-    # paths:
-    #   - services/observability-core/**
-    #   - modules/**
+    paths:
+      - services/shared-services/**
+      - modules/**
 
 permissions:
   id-token: write
