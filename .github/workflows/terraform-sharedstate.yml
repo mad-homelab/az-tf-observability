@@ -34,13 +34,13 @@ jobs:
 
       - name: Terraform Init
         run: |
-          terraform -chdir=services/shared-services init \
+          terraform -chdir=services/shared-services/sharedstate init \
             -backend-config=backend.dev.hcl \
             -reconfigure
 
       - name: Terraform Plan
         run: |
-          terraform -chdir=services/shared-services plan \
+          terraform -chdir=services/shared-services/sharedstate plan \
             -var-file=env/dev/dev.tfvars
 
       # - name: Terraform Apply
