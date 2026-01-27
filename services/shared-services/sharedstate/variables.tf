@@ -1,6 +1,6 @@
 variable "service_name" {
   type        = string
-  description = "Name of service provided by resources."
+  description = "Name of platform_service provided by resources."
 }
 
 variable "rg_location" {
