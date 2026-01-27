@@ -41,7 +41,7 @@ jobs:
       - name: Terraform Plan
         run: |
           terraform -chdir=services/shared-services plan \
-            -var-file=env/dev.tfvars
+            -var-file=env/dev/dev.tfvars
 
       # - name: Terraform Apply
       #   run: |
