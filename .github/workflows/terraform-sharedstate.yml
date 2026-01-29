@@ -47,7 +47,7 @@ jobs:
             -out=tfplan
           
           #Show the full plan to make attributes visible
-          terraform -chdir=services/shared-services/sharedstate/core-shared-state show -no-color tfplan
+          terraform -chdir=services/shared-services/sharedstate/core-shared-state show -json tfplan
 
       # - name: Terraform Apply
       #   run: |
