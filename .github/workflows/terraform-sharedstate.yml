@@ -10,7 +10,7 @@ on:
       - .github/workflows/terraform-sharedstate.yml
 
   workflow_dispatch:
-    
+
 permissions:
   id-token: write
   contents: read
@@ -36,16 +36,16 @@ jobs:
 
       - name: Terraform Init
         run: |
-          terraform -chdir=services/shared-services/sharedstate init \
+          terraform -chdir=services/shared-services/sharedstate/core-shared-state init \
             -backend-config=backend.dev.hcl \
             -reconfigure
 
       - name: Terraform Plan
         run: |
-          terraform -chdir=services/shared-services/sharedstate plan \
-            -var-file=env/dev/dev.tfvars
+          terraform -chdir=services/shared-services/sharedstate/core-shared-state plan \
+            -var-file=../env/core-dev/dev.tfvars
 
       # - name: Terraform Apply
       #   run: |
-      #     terraform -chdir=services/shared-services apply \
-      #       -var-file=env/dev.tfvars -auto-approve
+      #     terraform -chdir=services/shared-services/core-shared-state apply \
+      #       -var-file=../env/core-dev.tfvars -auto-approve
