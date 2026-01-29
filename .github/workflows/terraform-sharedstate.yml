@@ -70,4 +70,4 @@ jobs:
       - name: Terraform Apply
         run: |
           terraform -chdir=services/shared-services/sharedstate/core-shared-state apply \
-            -var-file=../env/core-dev.tfvars -auto-approve
+            -var-file=../env/dev/core-dev.tfvars -auto-approve
