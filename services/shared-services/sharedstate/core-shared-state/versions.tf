@@ -9,6 +9,7 @@ terraform {
 }
 
 provider "azurerm" {
+  use_oidc = true
   features {}
   #Sub ID added as env var
 }
