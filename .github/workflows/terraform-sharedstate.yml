@@ -43,7 +43,11 @@ jobs:
       - name: Terraform Plan
         run: |
           terraform -chdir=services/shared-services/sharedstate/core-shared-state plan \
-            -var-file=../env/dev/core-dev.tfvars
+            -var-file=../env/dev/core-dev.tfvars \
+            -out=tfplan
+          
+          #Show the full plan to make attributes visible
+          terraform -chdir=services/shared-services/sharedstate/core-shared-state show -no-color tfplan
 
       # - name: Terraform Apply
       #   run: |
