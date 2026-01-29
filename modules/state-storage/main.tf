@@ -7,6 +7,7 @@ resource "azurerm_storage_account" "this" {
   account_replication_type = "${var.account_replication_type}"
   # baseline hardening
   min_tls_version                 = "TLS1_2"
+  shared_access_key_enabled = false
   allow_nested_items_to_be_public = false
 
   # public access toggle (to be locked down in Phase 2)
