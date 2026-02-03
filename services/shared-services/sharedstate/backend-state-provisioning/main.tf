@@ -8,7 +8,7 @@ resource "azuread_application_registration" "app_teams" {
 
 # Create Service Principal
 resource "azuread_service_principal" "team_sps" {
-  for_each  = var.workload_teams
+  for_each  = var.service_teams
   client_id = azuread_application.app_teams[each.key].client_id
 }
 
