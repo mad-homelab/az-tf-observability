@@ -5,7 +5,7 @@ on:
     branches:
       - dev
     paths:
-      - services/shared-services/sharedstate/**
+      - services/shared-services/sharedstate/core-shared-state/**
       - modules/**
       - .github/workflows/terraform-sharedstate.yml
 
