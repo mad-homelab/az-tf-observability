@@ -2,7 +2,7 @@
 
 resource "azuread_application_registration" "app_teams" {
   for_each = var.service_teams
-  display_name     = "Example Application"
+  display_name     = "${each.value.display_name}"
   description      = "gh-identity-${each.key}-${var.environment}"
 }
 
@@ -16,10 +16,10 @@ resource "azuread_service_principal" "team_sps" {
 resource "azuread_application_federated_identity_credential" "main_branch" {
   for_each       = var.service_teams
   application_id = azuread_application_registration.app_teams[each.key].id
-  display_name   = "github-main-branch"
+  display_name   = "github-${each.key}-branch"
   issuer         = "https://token.actions.githubusercontent.com"
   audiences       = ["api://AzureADTokenExchange"]
-  subject        = "repo:mad-homelab/az-tf-observability/${each.value.repo_path}:ref:refs/heads/main"
+  subject        = "repo:mad-homelab/az-tf-observability/services/${each.value.repo_path}:ref:refs/heads/main"
 }
 # Module Create RG
 # Module Create Storage Account
