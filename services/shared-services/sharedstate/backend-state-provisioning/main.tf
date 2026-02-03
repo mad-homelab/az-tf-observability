@@ -2,7 +2,7 @@
 
 resource "azuread_application" "app_teams" {
   for_each = var.service_teams
-  display_name     = "${each.value.display_name}"
+  display_name     = "GitHub Actions - ${each.value.display_name} - ${var.environment}"
   description      = "gh-identity-${each.key}-${var.environment}"
 }
 
