@@ -1,4 +1,7 @@
 #App Registration information
-output "app_reg_credential_id" {
-    value = azuread_application_registration.app_teams.client_id
+output "app_reg_client_id" {
+    description = "The Client IDs for the team identities"
+    value = {
+    for name, app in azuread_application_registration.team_apps : name => app.client_id
+  }
 }
