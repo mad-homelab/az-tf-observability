@@ -43,7 +43,7 @@ module "service_team_storage_accts" {
   storage_account_name = lower(substr("madhl${each.value.short_name}${var.environment}", 0, 24))
   resource_group_name = module.service_team_rgs[each.key].resource_group_name
   resource_location = module.service_team_rgs[each.key].rg_location
-  container_name = "tfstate-${var.environment}"
+  container_name = "${each.value.short_name}-tfstate-${var.environment}"
 }
 
 # Assign RBAC RG Contributor
