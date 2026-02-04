@@ -4,8 +4,8 @@ output "service_handoff_manifest" {
   value = {
     for k, v in var.service_teams : k => {
       # Pulling directly from the Module Outputs
-      resource_group_name  = module.service_team_rgs[k].name
-      storage_account_name = module.service_team_storage_accts[k].name
+      resource_group_name  = module.service_team_rgs[k].resource_group_name
+      storage_account_name = module.service_team_storage_accts[k].storage_account_name
       container_name       = module.service_team_storage_accts[k].container_name
       
       # Identity Data

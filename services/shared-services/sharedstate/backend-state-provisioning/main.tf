@@ -41,8 +41,8 @@ module "service_team_storage_accts" {
 
   service_name = each.key
   storage_account_name = lower(substr("madhl${replace(each.key, "-", "")}${var.environment}", 0, 24))
-  resource_group_name = module.service_team_rgs[each.key].name
-  resource_location = module.service_team_rgs[each.key].location
+  resource_group_name = module.service_team_rgs[each.key].resource_group_name
+  resource_location = module.service_team_rgs[each.key].rg_location
   container_name = "${each.key}-tfstate-${var.environment}"
 }
 
