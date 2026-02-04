@@ -67,3 +67,9 @@ variable "allow_public_network_access" {
     default = true
     description = "Whether the storage account is accessible from public networks."
 }
+
+variable "shared_access_key_enabled" {
+    type = bool
+    default = false
+    description = "Whether users can use shared access keys for access to storage accounts, containers, blobs, etc. Recommended setting: false."
+}
