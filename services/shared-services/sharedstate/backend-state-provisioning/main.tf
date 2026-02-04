@@ -22,7 +22,26 @@ resource "azuread_application_federated_identity_credential" "main_branch" {
   subject        = "repo:mad-homelab/az-tf-observability/services/${each.value.repo_path}:ref:refs/heads/main"
 }
 # Module Create RG
-# Module Create Storage Account
-# Module Create State File
+module "service_team_rgs" {
+  for_each = var.service_teams
+  source = "../../../../modules/resource-group"
+
+  service_name = each.key
+  environment = var.environment
+  rg_location = var.location
+}
+
+# Module Create Storage Account and State File
+module "service_team_storage_accts" {
+  for_each = var.service_teams
+  source = "../../../../modules/state-storage"
+
+  service_name = each.key
+  storage_account_name = lower(substr("madhl${replace(each.key, "-", "")}${var.environment}", 0, 24))
+  resource_group_name = module.service_team_rgs[each.key].name
+  resource_location = module.service_team_rgs[each.key].location
+  container_name = "${each.key}-tfstate-${var.environment}"
+}
+
 # Assign RBAC RG Contributor
 # Assign RBAC Storage Account Blob Contributor

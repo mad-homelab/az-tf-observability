@@ -12,3 +12,8 @@ variable "environment" {
   description = "Environment resources are being deployed to."
 
 }
+
+variable "location" {
+  type        = string
+  default     = "australiaeast"
+}
