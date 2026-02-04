@@ -13,14 +13,17 @@ resource "azuread_service_principal" "team_sps" {
 }
 
 # Setup OIDC Federated Credentials
-resource "azuread_application_federated_identity_credential" "main_branch" {
+resource "azuread_application_federated_identity_credential" "team_branch" {
   for_each       = var.service_teams
   application_id = azuread_application.app_teams[each.key].id
   display_name   = "github-${each.key}-branch"
   issuer         = "https://token.actions.githubusercontent.com"
   audiences       = ["api://AzureADTokenExchange"]
-  subject        = "repo:mad-homelab/az-tf-observability/services/${each.value.repo_path}:ref:refs/heads/main"
+  subject        = "repo:mad-homelab/az-tf-observability/services/${each.value.repo_path}:ref:refs/heads/**"
 }
+
+data "azurerm_client_config" "current" {}
+
 # Module Create RG
 module "service_team_rgs" {
   for_each = var.service_teams
