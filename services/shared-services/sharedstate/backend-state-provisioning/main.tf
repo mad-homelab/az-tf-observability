@@ -56,7 +56,7 @@ resource "azurerm_role_assignment" "service_team_rg_contributor" {
 }
 
 # Assign RBAC Storage Account Blob Contributor
-resource "azurerm_role_assignment" "service_team_rg_contributor" {
+resource "azurerm_role_assignment" "service_team_sa_data_contributor" {
   for_each = var.service_teams
   scope = module.service_team_storage_accts[each.key].id
   principal_id = azuread_service_principal.team_sps[each.key].object_id
