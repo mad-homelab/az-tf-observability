@@ -16,5 +16,5 @@ variable "environment" {
 
 variable "location" {
   type        = string
-  default     = "australiaeast"
+  default     = "australiasoutheast"
 }
