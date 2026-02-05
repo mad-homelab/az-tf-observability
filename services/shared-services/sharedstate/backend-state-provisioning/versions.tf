@@ -14,6 +14,7 @@ terraform {
 
 provider "azurerm" {
   use_oidc = true
+  use_azuread = true
   storage_use_azuread = true
   features {}
   #Sub ID added as env var
