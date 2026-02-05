@@ -12,3 +12,4 @@ service_teams = {
 }
 
 environment = "dev"
+location    = "australiasoutheast"
