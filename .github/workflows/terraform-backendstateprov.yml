@@ -1,4 +1,4 @@
-name: Terraform - Shared Services (Dev)
+name: Terraform - Backend State Provisining (Dev)
 
 on:
   push:
@@ -48,7 +48,7 @@ jobs:
             -var-file=../env/dev/backend-state-provisioning-dev.tfvars \
             # -out=tfplan
 
-      - name: Terraform Apply
-        run: |
-          terraform -chdir=services/shared-services/sharedstate/backend-state-provisioning apply \
-            -var-file=../env/dev/backend-state-provisioning-dev.tfvars -auto-approve
+      # - name: Terraform Apply
+      #   run: |
+      #     terraform -chdir=services/shared-services/sharedstate/backend-state-provisioning apply \
+      #       -var-file=../env/dev/backend-state-provisioning-dev.tfvars -auto-approve
