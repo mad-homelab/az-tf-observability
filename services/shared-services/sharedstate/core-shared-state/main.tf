@@ -2,8 +2,8 @@
 module "rg_state" {
     source = "../../../../modules/resource-group"
 
-    service_name = "${var.service_name}"
-    environment = "${var.environment}"
+    service_name = var.service_name
+    environment = var.environment
 }
 
 module "tfstate_storage" {
@@ -16,7 +16,7 @@ module "tfstate_storage" {
   container_name       = var.container_name
   account_replication_type     = var.account_replication_type
 
-  environment = "${var.environment}"
-  service_name = "${var.service_name}"
+  environment = var.environment
+  service_name = var.service_name
 }
 
