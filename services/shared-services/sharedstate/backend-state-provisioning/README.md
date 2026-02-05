@@ -74,8 +74,8 @@ output "service_handoff_manifest" {
 ## Example: Service Team Backend Configuration
 
 ```hcl
-    resource_group_name  = "<enter your rg>”
-    storage_account_name = "<enter your storage acct name>”
+    resource_group_name  = "<enter your rg>"
+    storage_account_name = "<enter your storage acct name>"
     container_name       = "<enter your container name>"
     key                  = "<yourstatefilename>.tfstate"
 
