@@ -5,12 +5,12 @@ on:
     branches:
       - dev
     paths:
-      - services/shared-services/sharedstate/core-shared-state/**
+      - services/shared-services/sharedstate/**
       - modules/**
       - .github/workflows/terraform-sharedstate.yml
 
   workflow_dispatch:
-
+    
 permissions:
   id-token: write
   contents: read
@@ -36,38 +36,16 @@ jobs:
 
       - name: Terraform Init
         run: |
-          terraform -chdir=services/shared-services/sharedstate/core-shared-state init \
+          terraform -chdir=services/shared-services/sharedstate init \
             -backend-config=backend.dev.hcl \
             -reconfigure
 
       - name: Terraform Plan
-        id: plan
         run: |
-          terraform -chdir=services/shared-services/sharedstate/core-shared-state plan \
-            -var-file=../env/dev/core-dev.tfvars \
-            # -out=tfplan
-          
-          #Show the full plan to make attributes visible
-          # terraform -chdir=services/shared-services/sharedstate/core-shared-state show -json tfplan
+          terraform -chdir=services/shared-services/sharedstate plan \
+            -var-file=env/dev/dev.tfvars
 
-          # echo "--- DETAILED ATTRIBUTE COMPARISON ---"
-          # terraform -chdir=services/shared-services/sharedstate/core-shared-state show -json tfplan | jq '
-          #   .resource_changes[] | 
-          #   select(.address == "module.tfstate_storage.azurerm_storage_account.this") | 
-          #   {
-          #     resource: .address,
-          #     before: {
-          #       shared_access_key_enabled: .change.before.shared_access_key_enabled,
-          #       public_network_access: .change.before.public_network_access_enabled
-          #     },
-          #     after: {
-          #       shared_access_key_enabled: .change.after.shared_access_key_enabled,
-          #       public_network_access: .change.after.public_network_access_enabled
-          #     }
-          #   }'
-          # echo "------------------------------------"
-
-      - name: Terraform Apply
-        run: |
-          terraform -chdir=services/shared-services/sharedstate/core-shared-state apply \
-            -var-file=../env/dev/core-dev.tfvars -auto-approve
+      # - name: Terraform Apply
+      #   run: |
+      #     terraform -chdir=services/shared-services apply \
+      #       -var-file=env/dev.tfvars -auto-approve
