@@ -9,8 +9,8 @@ resource "azurerm_log_analytics_workspace" "law_create" {
   internet_ingestion_enabled = true
   internet_query_enabled = true
   tags                = {
-        environment   = "${var.environment}"
-        service       = "${var.service_name}"
+        environment   = var.environment
+        service       = var.service_name
   }
 }
 

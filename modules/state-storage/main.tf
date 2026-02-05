@@ -1,19 +1,20 @@
 # Storage Account for Terraform remote state
 resource "azurerm_storage_account" "this" {
-  name                     = "${var.storage_account_name}"
+  name                     = var.storage_account_name
   resource_group_name      = var.resource_group_name
-  location                 = "${var.resource_location}"
-  account_tier             = "${var.account_tier}"
-  account_replication_type = "${var.account_replication_type}"
+  location                 = var.resource_location
+  account_tier             = var.account_tier
+  account_replication_type = var.account_replication_type
   # baseline hardening
+  shared_access_key_enabled = var.shared_access_key_enabled
   min_tls_version                 = "TLS1_2"
   allow_nested_items_to_be_public = false
 
   # public access toggle (to be locked down in Phase 2)
   public_network_access_enabled = var.allow_public_network_access
   tags = {
-    environment = "${var.environment}"
-    service = "${var.service_name}"
+    environment = var.environment
+    service = var.service_name
   }
 }
 
