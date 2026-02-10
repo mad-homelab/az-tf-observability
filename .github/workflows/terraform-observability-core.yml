@@ -45,7 +45,7 @@ jobs:
         run: |
           terraform -chdir=services/observability-core/log-analytics-workspace plan \
 
-      # - name: Terraform Apply
-      #   run: |
-      #     terraform -chdir=services/observability-core/log-analytics-workspace apply \
-      #       -auto-approve
+      - name: Terraform Apply
+        run: |
+          terraform -chdir=services/observability-core/log-analytics-workspace apply \
+            -auto-approve
