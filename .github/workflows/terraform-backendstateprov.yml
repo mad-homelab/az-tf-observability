@@ -1,4 +1,4 @@
-name: Terraform - Backend State Provisining (Dev)
+name: Terraform - Backend State Provisioning (Dev)
 
 on:
   push:
