@@ -26,16 +26,16 @@ resource "azurerm_log_analytics_workspace" "law_create" {
   }
 }
 
-# resource "azurerm_monitor_diagnostic_setting" "law_diags" {
-#   name               = "${var.service_name}-diagnostics-${var.environment}"
-#   target_resource_id = azurerm_log_analytics_workspace.law_create.id
-#   log_analytics_workspace_id = azurerm_log_analytics_workspace.law_create.id
+resource "azurerm_monitor_diagnostic_setting" "law_diags" {
+  name               = "${var.service_name}-diagnostics-${var.environment}"
+  target_resource_id = azurerm_log_analytics_workspace.law_create.id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.law_create.id
 
-#   enabled_log {
-#     category_group = "allLogs"
-#   }
+  enabled_log {
+    category_group = "allLogs"
+  }
 
-#   enabled_metric {
-#     category = "AllMetrics"
-#   }
-# }
+  enabled_metric {
+    category = "AllMetrics"
+  }
+}
