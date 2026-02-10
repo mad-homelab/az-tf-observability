@@ -12,6 +12,11 @@ output "service_handoff_manifest" {
       client_id            = azuread_application.app_teams[k].client_id
       subscription_id      = data.azurerm_client_config.current.subscription_id
       tenant_id            = data.azurerm_client_config.current.tenant_id
+
+      # OIDC Trust Info
+      federated_name    = azuread_application_federated_identity_credential.team_branch[k].name
+      federated_subject    = azuread_application_federated_identity_credential.team_branch[k].subject
+      federated_issuer     = azuread_application_federated_identity_credential.team_branch[k].issuer
     }
   }
 }
