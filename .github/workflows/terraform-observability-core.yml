@@ -1,0 +1,51 @@
+name: Terraform - Shared Services (Dev)
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - services/shared-services/observability-core/log-analytics-workspace/**
+      - modules/**
+      - .github/workflows/terraform-observability-core.yml
+
+  workflow_dispatch:
+    
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  ARM_USE_OIDC: true
+  ARM_USE_AZUREAD: true
+  ARM_CLIENT_ID: ${{ secret.CORE_OBS_CLIENT_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+jobs:
+  terraform:
+    environment: dev
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
+
+      - name: Terraform Init
+        run: |
+          terraform -chdir=services/observability-core/log-analytics-workspace/core-shared-state init \
+            -backend-config=backend.dev.hcl \
+            -reconfigure
+
+      - name: Terraform Plan
+        run: |
+          terraform -chdir=services/observability-core/log-analytics-workspace/core-shared-state plan \
+
+      # - name: Terraform Apply
+      #   run: |
+      #     terraform -chdir=services/observability-core/log-analytics-workspace apply \
+      #       -auto-approve
