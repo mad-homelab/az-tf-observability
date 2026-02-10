@@ -5,7 +5,7 @@ on:
     branches:
       - dev
     paths:
-      - services/shared-services/observability-core/log-analytics-workspace/**
+      - services/observability-core/log-analytics-workspace/**
       - modules/**
       - .github/workflows/terraform-observability-core.yml
 
