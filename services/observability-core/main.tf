@@ -1,3 +1,4 @@
+# Deploy Log Analytics Workspace resource
 resource "azurerm_log_analytics_workspace" "law_create" {
   name                = "${var.service_name}-law-${var.environment}"
   location            = module.rg_create.rg_location
@@ -14,6 +15,7 @@ resource "azurerm_log_analytics_workspace" "law_create" {
   }
 }
 
+# Enable Diagnostics for the LAW resource
 resource "azurerm_monitor_diagnostic_setting" "example" {
   name               = "${var.service_name}-diagnostics-${var.environment}"
   target_resource_id = azurerm_log_analytics_workspace.law_create.id
