@@ -3,6 +3,7 @@ data "azurerm_resource_group" "obs_rg" {
   name = "observability-core-rg-dev" # Must match exactly what was created
 }
 
+# Deploy Log Analytics Workspace resource
 resource "azurerm_log_analytics_workspace" "law_create" {
   name                = "${var.service_name}-law-${var.environment}"
   location            = data.azurerm_resource_group.obs_rg.location
@@ -26,9 +27,10 @@ resource "azurerm_log_analytics_workspace" "law_create" {
   }
 }
 
+# Enable Diagnostics for the LAW resource
 resource "azurerm_monitor_diagnostic_setting" "law_diags" {
-  name               = "${var.service_name}-diagnostics-${var.environment}"
-  target_resource_id = azurerm_log_analytics_workspace.law_create.id
+  name                       = "${var.service_name}-diagnostics-${var.environment}"
+  target_resource_id         = azurerm_log_analytics_workspace.law_create.id
   log_analytics_workspace_id = azurerm_log_analytics_workspace.law_create.id
 
   enabled_log {
