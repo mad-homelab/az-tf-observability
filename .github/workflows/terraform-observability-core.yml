@@ -37,13 +37,13 @@ jobs:
 
       - name: Terraform Init
         run: |
-          terraform -chdir=services/observability-core/log-analytics-workspace/core-shared-state init \
+          terraform -chdir=services/observability-core/log-analytics-workspace init \
             -backend-config=backend.dev.hcl \
             -reconfigure
 
       - name: Terraform Plan
         run: |
-          terraform -chdir=services/observability-core/log-analytics-workspace/core-shared-state plan \
+          terraform -chdir=services/observability-core/log-analytics-workspace plan \
 
       # - name: Terraform Apply
       #   run: |
