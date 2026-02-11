@@ -14,7 +14,7 @@ resource "azurerm_subscription_policy_assignment" "this" {
 }
 
 resource "azurerm_role_assignment" "remediation" {
-  for_each             = var.role_definition_ids
+  for_each             = toset(var.role_definition_ids)
   scope                = var.subscription_id
   role_definition_id   = "/providers/microsoft.authorization/roleDefinitions/${each.value}"
   principal_id         = azurerm_subscription_policy_assignment.this.identity[0].principal_id
