@@ -5,7 +5,7 @@ on:
     branches:
       - dev
     paths:
-      - services/shared-services/sharedstate/core-shared-state/**
+      - services/shared-services/core-shared-state/**
       - modules/**
       - .github/workflows/terraform-sharedstate.yml
 
@@ -37,13 +37,13 @@ jobs:
 
       - name: Terraform Init
         run: |
-          terraform -chdir=services/shared-services/sharedstate/core-shared-state init \
+          terraform -chdir=services/shared-services/core-shared-state init \
             -backend-config=backend.dev.hcl \
             -reconfigure
 
       - name: Terraform Plan
         run: |
-          terraform -chdir=services/shared-services/sharedstate/core-shared-state plan \
+          terraform -chdir=services/shared-services/core-shared-state plan \
             -var-file=../env/dev/core-dev.tfvars
 
       # - name: Terraform Apply
