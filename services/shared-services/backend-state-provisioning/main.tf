@@ -27,7 +27,7 @@ data "azurerm_client_config" "current" {}
 # Module Create RG
 module "service_team_rgs" {
   for_each = var.service_teams
-  source = "../../../../modules/resource-group"
+  source = "../../../modules/resource-group"
 
   service_name = each.key
   environment = var.environment
@@ -37,7 +37,7 @@ module "service_team_rgs" {
 # Module Create Storage Account and State File
 module "service_team_storage_accts" {
   for_each = var.service_teams
-  source = "../../../../modules/state-storage"
+  source = "../../../modules/state-storage"
 
   service_name = each.key
   shared_access_key_enabled = false
