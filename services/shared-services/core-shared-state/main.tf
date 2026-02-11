@@ -1,13 +1,13 @@
 #Deploy RG for shared state
 module "rg_state" {
-    source = "../../../../modules/resource-group"
+    source = "../../../modules/resource-group"
 
     service_name = var.service_name
     environment = var.environment
 }
 
 module "tfstate_storage" {
-  source = "../../../../modules/state-storage"
+  source = "../../../modules/state-storage"
 
   # IMPORTANT: use the RG module output, not a duplicated var
   resource_group_name    = module.rg_state.resource_group_name
