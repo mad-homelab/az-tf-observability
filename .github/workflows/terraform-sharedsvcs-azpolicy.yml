@@ -42,10 +42,9 @@ jobs:
 
       - name: Terraform Plan
         run: |
-          terraform -chdir=services/shared-services/az-policies plan \
-            -var-file=../env/dev/core-dev.tfvars
+          terraform -chdir=services/shared-services/az-policies plan
 
       # - name: Terraform Apply
       #   run: |
       #     terraform -chdir=services/shared-services/az-policies apply \
-      #       -var-file=../env/core-dev.tfvars -auto-approve
+      #        -auto-approve
