@@ -13,7 +13,7 @@ module "policy_storage_platform" {
   display_name      = "[Built-in] Storage Account Metrics"
   subscription_id   = data.azurerm_subscription.current.id
   location          = var.location
-  builtin_policy_id = "/providers/Microsoft.Authorization/policyDefinitions/7df585fb-845d-4950-860d-458da45395a5"
+  builtin_policy_id = "/providers/Microsoft.Authorization/policyDefinitions/59759c62-9a22-4cdf-ae64-074495983fef"
   role_definition_ids = []
   # Pass central log analytics workspace id
   law_id            = data.azurerm_log_analytics_workspace.central.id
