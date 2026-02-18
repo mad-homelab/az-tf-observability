@@ -29,7 +29,7 @@ module "policy_assignments" {
 resource "azurerm_subscription_policy_remediation" "remediations" {
 for_each = { 
     for key, config in var.policy_configs : key => config 
-    if length(config.roles) > 0 
+    if config.enable_remediation && length(config.roles) > 0
   }
   name                 = "remediate-${each.value.resource_type}-platform"
   subscription_id      = data.azurerm_subscription.current.id
