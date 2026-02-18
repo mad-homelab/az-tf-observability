@@ -34,6 +34,7 @@ variable "resource_group_name" {
 
 variable "storage_account_name" {
     type = string
+    default = "madhlfirstdev"
     description = "Use this to append any custom identifiers in the standard storage account name."
   validation {
     condition     = can(regex("^[a-z0-9-]{3,24}$", var.storage_account_name))
@@ -43,6 +44,7 @@ variable "storage_account_name" {
 
 variable "container_name" {
     type = string
+    default = "madhlcontdev"
     description = "Blob container name to store Terraform state."
   validation {
     condition     = can(regex("^[a-z0-9-]{3,24}$", var.container_name))
@@ -58,7 +60,7 @@ variable "account_tier" {
 
 variable "account_replication_type" {
   type        = string
-  default     = "GRS"
+  default     = "LRS"
   description = "Name of service provided by resources."
 }
 

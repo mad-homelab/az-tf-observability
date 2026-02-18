@@ -1,13 +1,13 @@
-name: Terraform - Shared Services (Dev)
+name: Terraform - Observability Core (Dev)
 
 on:
   push:
     branches:
       - dev
     paths:
-      - services/shared-services/core-shared-state/**
+      - services/observability-core/log-analytics-workspace/**
       - modules/**
-      - .github/workflows/terraform-sharedstate.yml
+      - .github/workflows/terraform-observability-core.yml
 
   workflow_dispatch:
     
@@ -18,7 +18,7 @@ permissions:
 env:
   ARM_USE_OIDC: true
   ARM_USE_AZUREAD: true
-  ARM_CLIENT_ID: ${{ secrets.SHARED_SERVICES_CLIENT_ID }}
+  ARM_CLIENT_ID: ${{ secrets.CORE_OBS_CLIENT_ID }}
   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
@@ -37,16 +37,15 @@ jobs:
 
       - name: Terraform Init
         run: |
-          terraform -chdir=services/shared-services/core-shared-state init \
+          terraform -chdir=services/observability-core/log-analytics-workspace init \
             -backend-config=backend.dev.hcl \
             -reconfigure
 
       - name: Terraform Plan
         run: |
-          terraform -chdir=services/shared-services/core-shared-state plan \
-            -var-file=../env/dev/core-dev.tfvars
+          terraform -chdir=services/observability-core/log-analytics-workspace plan \
 
-      # - name: Terraform Apply
-      #   run: |
-      #     terraform -chdir=services/shared-services/core-shared-state apply \
-      #       -var-file=../env/core-dev.tfvars -auto-approve
+      - name: Terraform Apply
+        run: |
+          terraform -chdir=services/observability-core/log-analytics-workspace apply \
+            -auto-approve

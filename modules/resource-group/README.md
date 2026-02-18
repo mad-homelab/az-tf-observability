@@ -35,9 +35,9 @@ The module applies these base tags:
 ## Outputs
 | Output | Description |
 |--------|-------------|
-| `id`   | Resource Group ID |
-| `name` | Resource Group name |
-| `location` | Resource Group location |
+| `rg_id`   | Resource Group ID |
+| `resource_group_name` | Resource Group name |
+| `rg_location` | Resource Group location |
 
 ## Example usage
 ```hcl

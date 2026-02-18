@@ -16,10 +16,10 @@ resource "azuread_service_principal" "team_sps" {
 resource "azuread_application_federated_identity_credential" "team_branch" {
   for_each       = var.service_teams
   application_id = azuread_application.app_teams[each.key].id
-  display_name   = "github-${each.key}-branch"
+  display_name   = "github-${each.key}-${var.environment}"
   issuer         = "https://token.actions.githubusercontent.com"
   audiences       = ["api://AzureADTokenExchange"]
-  subject        = "repo:mad-homelab/az-tf-observability/services/${each.value.repo_path}:ref:refs/heads/**"
+  subject        = "repo:mad-homelab/az-tf-observability:environment:${var.environment}"
 }
 
 data "azurerm_client_config" "current" {}
@@ -27,7 +27,7 @@ data "azurerm_client_config" "current" {}
 # Module Create RG
 module "service_team_rgs" {
   for_each = var.service_teams
-  source = "../../../../modules/resource-group"
+  source = "../../../modules/resource-group"
 
   service_name = each.key
   environment = var.environment
@@ -37,7 +37,7 @@ module "service_team_rgs" {
 # Module Create Storage Account and State File
 module "service_team_storage_accts" {
   for_each = var.service_teams
-  source = "../../../../modules/state-storage"
+  source = "../../../modules/state-storage"
 
   service_name = each.key
   shared_access_key_enabled = false

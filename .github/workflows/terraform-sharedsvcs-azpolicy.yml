@@ -1,16 +1,15 @@
-name: Terraform - Backend State Provisining (Dev)
+name: Terraform - Shared Services - Azure Policy
 
 on:
   push:
     branches:
       - dev
     paths:
-      - services/shared-services/backend-state-provisioning/**
-      - modules/**
-      - .github/workflows/terraform-backendstateprov.yml
+      - services/shared-services/az-policies/**
+      - .github/workflows/terraform-sharedsvcs-azpolicy.yml
 
   workflow_dispatch:
-
+    
 permissions:
   id-token: write
   contents: read
@@ -37,18 +36,16 @@ jobs:
 
       - name: Terraform Init
         run: |
-          terraform -chdir=services/shared-services/backend-state-provisioning init \
+          terraform -chdir=services/shared-services/az-policies init \
             -backend-config=backend.dev.hcl \
             -reconfigure
 
       - name: Terraform Plan
-        id: plan
         run: |
-          terraform -chdir=services/shared-services/backend-state-provisioning plan \
-            -var-file=../env/dev/backend-state-provisioning-dev.tfvars \
-            # -out=tfplan
+          terraform -chdir=services/shared-services/az-policies plan \
+            -var-file=../env/dev/azpolicy.tfvars 
 
       # - name: Terraform Apply
       #   run: |
-      #     terraform -chdir=services/shared-services/backend-state-provisioning apply \
-      #       -var-file=../env/dev/backend-state-provisioning-dev.tfvars -auto-approve
+      #     terraform -chdir=services/shared-services/az-policies apply \
+      #       -var-file=../env/dev/azpolicy.tfvars -auto-approve
