@@ -1,81 +1,88 @@
-# Azure-Terraform Observability
+# Azure-Native Observability: Enterprise Governance Framework
 
-## The What and the Why
-The goal of this project is to implement a production-grade, automated observability framework that maximizes the business value of the Azure Monitor platform. By treating observability as code, we ensure that the entire stack—from cloud platform and networking to IaaS and PaaS workloads—is governed by proactive telemetry standards. This project ensures consistent observability coverage across the Azure ecosystem. By using policy-driven remediation and automated resource deployment with built-in observability features, we eliminate "monitoring blind spots" with minimum manual intervention, ensuring that platform health and compliance risk indicators are always captured and visible.
+> **⚠️ Portfolio Note:** This repository demonstrates a reference architecture for **deploying observability at-scale**. It illustrates the architectural patterns I utilize to enforce governance, security, and consistent telemetry across complex Azure environments. It is designed to showcase best practices for policy-driven monitoring and is not an exact replica of any specific corporate implementation.
+
+## 🎯 The What and the Why
+The goal of this project is to implement a production-grade, automated observability framework that maximizes the business value of the Azure Monitor platform. By treating observability as code, we ensure that the entire stack—from cloud platform and networking to IaaS, PaaS, and Data workloads—is governed by proactive telemetry standards.
+
+This project addresses the common challenge of "monitoring drift" in large environments. By using **Policy-Driven Remediation** and automated resource deployment, we eliminate blind spots with zero manual intervention, ensuring that platform health and compliance indicators are always captured and visible.
 
 ---
 
-## Architecture and Operating Model
+## 🏗️ Architecture and Operating Model
 
-### Architecture Diagram
+### The Decoupled Governance Pattern
 The architecture utilizes a **Decoupled Governance Pattern**. A centralized GitHub Actions pipeline orchestrates deployments across different service domains, ensuring that observability logic is separated from core infrastructure but enforced globally at the subscription level.
 
-### Teams and Services
-The repository is structured to support a multi-team environment through **Service Isolation**:
-* **Shared Services Team**: Manages bootstrap resources, including the initial Resource Groups and Storage Accounts for every team.
-* **Observability Team**: Owns the centralized Log Analytics Workspace and reusable Terraform modules to deploy observability components such as Data Collection Rules (DCRs), alert rules, and action groups.
-* **Workload Teams**: Consume these pre-governed services to ensure their specific apps (IaaS/PaaS) are compliant upon deployment.
+### Service Isolation Model
+The repository is structured to support a multi-team enterprise environment:
+*   **Shared Services Team:** Manages bootstrap resources, including the initial Resource Groups and Storage Accounts (State).
+*   **Observability Team:** Owns the centralized Log Analytics Workspace (LAW) and reusable Terraform modules to deploy DCRs (Data Collection Rules), alert rules, and action groups.
+*   **Workload Teams:** Consume these pre-governed services to ensure their specific apps (IaaS/PaaS/Data) are compliant upon deployment.
 
 ### Tech Stack
-* **Infrastructure Deployment**: **Terraform utilizing** a modularized structure.
-* **CI/CD**: **GitHub Actions** with path-based triggers and OIDC-based Azure authentication.
-* **Enforcement**: Azure Policy (DeployIfNotExists), Azure Monitoring & Dependency Agents, Application Insights SDKs, and Terraform module deployment of alert rules and action groups for automated observability enablement.
-* **Observability & Monitoring**: Azure Monitor, Log Analytics (LAW), Data Collection Rules, VM Insights, and Application Insights.
+*   **Infrastructure:** Terraform (Modular HCL).
+*   **CI/CD:** GitHub Actions with path-based triggers.
+*   **Security:** OpenID Connect (OIDC) for identity federation (Zero Trust).
+*   **Enforcement:** Azure Policy (`DeployIfNotExists`), Azure Monitor Agents (AMA).
 
 ---
 
-## Design Decisions
+## 🔒 Design Decisions
 
-### Security (OIDC)
-The project utilizes OpenID Connect (OIDC) to establish federated identity between GitHub Actions and Azure. This eliminates the need for long-lived secrets, aligning with enterprise security standards for platform automation.
+### Security (OIDC & Zero Trust)
+The project utilizes **OpenID Connect (OIDC)** to establish federated identity between GitHub Actions and Azure. This eliminates the need for long-lived secrets, aligning with enterprise-grade security standards for platform automation.
 
-### Shared State Storage
-Implements a hierarchical state strategy where a centralized backend is used for bootstrapping shared services. To ensure autonomy and isolation, individual teams manage their own backend state storage for their specific environments. To eliminate the risk of long-lived secrets, all backend access is "keyless." By establishing **OIDC Federated Credentials** between GitHub Actions and Azure, the pipeline authenticates using short-lived tokens. Permissions are strictly enforced via **RBAC** (Storage Blob Data Contributor), ensuring a "Secretless" security posture that adheres to the Principle of Least Privilege.
-
-### Resources and Modularized Components by Owner
-
-#### Shared Services and Bootstrapping Services
-* [Backend State Provisioning Engine](services/shared-services/backend-state-provisioning/README.md) - Automates the lifecycle of team-specific Resource Groups and Storage Accounts (Backend State Storage).
-* [Resource Group](modules/resource-group/README.md) - Standardized resource container for service lifecycle management.
-* [Storage Account](modules/state-storage/README.md) - Deploys storage accounts to store each service's respective backend state; configured with keyless state access via OIDC and RBAC.
-* [Storage Account Diagnostics and Platform Metrics](services/shared-services/az-policies/README.md) - Enables Storage Account Diagnostics and Platform Metrics via Azure Built-in Policy
-
-#### Observability Core
-* [Log Analytics Workspace](services/observability-core/log-analytics-workspace/README.md) - Deploys centralised log analytics workspace resource.
-* (Coming soon) Data Collection Rule- Logic for telemetry ingestion and filtering.
-* (Coming soon) Log-based Alert Rule - Build standardised log-based alerts using performant KQL queries and alert rule configurations.
-* (Coming soon) Metric-based Alert Rule - Deploy alert rules based on available metrics (Platform/Guest OS)
-* (Coming soon) Application Insights - Enable full-stack, code-level application visibility.
+### Secretless Shared State
+Implements a hierarchical state strategy where a centralized backend is used for bootstrapping shared services. To eliminate the risk of credential theft:
+*   All backend access is **"keyless."**
+*   The pipeline authenticates using short-lived OIDC tokens.
+*   Permissions are strictly enforced via **RBAC** (Storage Blob Data Contributor).
 
 ---
 
-## Key Outcomes – Full-Stack Azure-Native Observability
+## 📊 Key Outcomes: Full-Stack Visibility
+This framework is designed to provide visibility beyond standard IaaS, covering the entire enterprise stack:
 
-### Centralized Log Analytics
-We deployed a Central Log Analytics Workspace as the primary and unified telemetry sink. Configuration includes optimised retention periods to balance operational requirements with cost-efficiency.
+### 1. Centralized Log Analytics (The Hub)
+Deployed a Central Log Analytics Workspace as the primary telemetry sink. Configuration includes **optimized retention policies** to balance operational requirements with cost-efficiency.
 
-*(Screenshot to be placed here)*
+### 2. Infrastructure (IaaS) Governance
+*   **Automated Agent Injection:** Uses Azure Policy to automatically deploy the **Azure Monitor Agent (AMA)** and Dependency Agent to all new VMs.
+*   **Drift Detection:** Ensures no server can exist in the environment without reporting telemetry.
 
-### Storage Account Diagnostic Settings and Platform Metrics via Azure Policy
-Automated enablement of diagnostic settings for Storage Accounts using Azure Policy (DeployIfNotExists) to ensure platform metrics are captured automatically across the subscription.
+### 3. Application Performance (PaaS)
+*   **Code-Level Visibility:** Architects the native integration of **Application Insights** (OpenTelemetry) for App Services and Functions.
+*   **Distributed Tracing:** Enables end-to-end transaction tracing across microservices, moving visibility beyond "uptime" to "latency diagnostics."
 
-*(Before and after remediation screenshots to be placed here)*
+### 4. Data Pipeline Reliability (Azure Data Factory)
+*   **Pipeline Failure Detection:** Defines a standard monitoring pattern for **Azure Data Factory** to enforce consistent logging via Azure Policy.
+*   **The "Why":** To prevent silent failures in ETL jobs. The architecture is designed to stream 100% of `PipelineRun` logs to the central workspace, enabling SREs to build "Freshness Alerts" (e.g., *'Alert if the 4 AM Regulatory Report is late'*) without relying on manual configuration.
 
-### (Coming soon) IaaS Workload
-* **VM AMA and Dependency agents via policy**: Automated deployment of the Azure Monitor Agent and Dependency Agent to enable VM Insights at scale.
-* **AppInsights integration**: Deep application-level monitoring for IaaS-hosted services.
-
-### (Coming soon) PaaS Workload
-* **Diagnostic Settings and Platform Metrics for PaaS Resource**: Extending policy-driven governance to Azure PaaS services.
-* **AppInsights**: Native integration of Application Insights SDKs for serverless and managed services.
-
-### (Coming soon) Network Connection Monitor
-Proactive monitoring of network connectivity and latency across cloud-native environments.
-
-### (Coming soon) Azure Workbooks – Single Pane of Glass
-Creation of interactive operational dashboards in Azure Workbooks to present health, performance, compliance posture, and platform risk indicators.
+### 5. Network Resilience
+*   **Connection Monitors:** Establishes a pattern for proactive **Azure Network Watcher** Connection Monitors.
+*   **Traffic Analysis:** Designed to continuously test connectivity to critical endpoints (e.g., License Servers, Gateways) to detect blocking NSG rules before they impact applications.
 
 ---
 
-### SRE Alignment
-This project directly supports SRE-driven practices by reducing operational toil through automated compliance enforcement and ensuring that application telemetry data is available to build reliable and resilient systems by driving down Mean-Time-To-Detect & Mean-Time-To-Resolve and establishing SLO and Error Budget tracking.
+## 🗺️ Implementation Plan: Full-Stack Azure-Native Observability
+
+### Phase 1: Foundation (Completed)
+*   [x] OIDC Security Setup & Secretless State
+*   [x] Centralized Log Analytics Workspace Deployment
+*   [x] Storage Account Diagnostics via Policy (`DeployIfNotExists`)
+
+### Phase 2: Workload Insights (Planned)
+*   **IaaS Module:** Standardization of Alert Rules and Action Groups for VM fleets.
+*   **PaaS Module:** Native integration of Application Insights SDKs for App Service and Functions.
+*   **Data Reliability Module:** Standardization of alert logic for **Azure Data Factory**, focusing on "Failed Runs" and "Long Running Pipelines."
+
+### Phase 3: Visual Intelligence (Planned)
+*   **Azure Workbooks:** Creation of "Single Pane of Glass" dashboards to visualize health, compliance posture, and platform risk indicators (SLIs/SLOs).
+
+---
+
+## 👤 About
+**Maintained by:** Aiso Dee
+*Senior Observability Engineer & Architect*
+```
