@@ -21,6 +21,7 @@ variable "policy_configs" {
     resource_type = string
     display_name = string
     policy_id    = string
+    enable_remediation = bool
     roles        = map(string)
   }))
   description = "Map of objects corresponding to each policy and remediation configurations."
