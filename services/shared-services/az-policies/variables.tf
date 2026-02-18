@@ -10,12 +10,6 @@ variable "resource_type" {
   # Example: "stg" results in "audit-stg-platform" in your locals
 }
 
-variable "policy_display_name" {
-  type        = string
-  description = "The human-readable name for the policy assignment as it appears in the Azure Portal."
-  # Example: "[Built-in] Storage Account Metrics"
-}
-
 variable "location" {
   type        = string
   default     = "australiasoutheast"
