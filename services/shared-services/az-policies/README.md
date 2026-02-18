@@ -1,4 +1,4 @@
-# Service: Azure Policies (Governance)
+# Azure Policies (Governance)
 
 ## Purpose
 This service automates platform-wide governance by enforcing **DeployIfNotExists (DINE)** policies. It ensures that both new and existing resources—such as Storage Accounts—are automatically brought into compliance with the enterprise's observability standards.
@@ -16,7 +16,6 @@ This service automates platform-wide governance by enforcing **DeployIfNotExists
 This service follows a two-tier governance model:
 1. **Internal Module (`module-policy-builtin`)**: Standardizes the assignment of the policy and the configuration of the Managed Identity.
 2. **Root Configuration (`governance-main.tf`)**: Orchestrates the remediation lifecycle, ensuring the policy effect is applied retroactively across the subscription.
-
 
 
 ### Key Features

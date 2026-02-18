@@ -1,4 +1,4 @@
-State Storage
+# State Storage Module
 
 ## Purpose
 This module provisions the essential infrastructure required to store and manage Terraform state files. It serves as the initial **Bootstrap** layer, creating the secure storage environment necessary for subsequent infrastructure-as-code deployments.
@@ -49,3 +49,24 @@ To ensure auditability and prevent naming collisions, the following convention i
 * **Example**: `madhlobsdev`
 
 ---
+
+## Outputs
+| Output | Description |
+|--------|-------------|
+| `storage_account_id`   | Storage Account ID |
+| `storage_account_name` | Storage Account name|
+| `container_name` | Name of Container created |
+
+## Example usage
+```hcl
+module "sample_storage" {
+  source = "../../../modules/state-storage"
+
+  resource_group_name    = <enter or pass RG name here>
+  resource_location      = <enter or pass location here>
+  storage_account_name   = <enter storage account name here>
+  container_name         = <enter container name here>
+  account_replication_type     = <enter appropriate replication type here>
+  service     = <enter service here>
+  environment = <enter environment here>
+}

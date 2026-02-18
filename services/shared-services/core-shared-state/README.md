@@ -1,4 +1,4 @@
-# Service: Core Shared State (Platform Backend)
+# Core Platform Backend State
 
 ## Purpose
 This service establishes the **Centralized Backend Infrastructure** for the Shared Services Platform Team. It acts as the "Root of Trust" for the entire platform, providing the secure, remote storage required to manage the Terraform state of all core observability and governance components.
