@@ -1,4 +1,4 @@
-# Azure-Terraform Observability (Project Mother-Butter)
+# Azure-Terraform Observability
 
 ## The What and the Why
 The goal of this project is to implement a production-grade, automated observability framework that maximizes the business value of the Azure Monitor platform. By treating observability as code, we ensure that the entire stack—from cloud platform and networking to IaaS and PaaS workloads—is governed by proactive telemetry standards. This project ensures consistent observability coverage across the Azure ecosystem. By using policy-driven remediation and automated resource deployment with built-in observability features, we eliminate "monitoring blind spots" with minimum manual intervention, ensuring that platform health and compliance risk indicators are always captured and visible.
@@ -8,17 +8,17 @@ The goal of this project is to implement a production-grade, automated observabi
 ## Architecture and Operating Model
 
 ### Architecture Diagram
-The architecture utilizes a Decoupled Governance Pattern. A centralized GitHub Actions pipeline orchestrates deployments across different service domains, ensuring that observability logic is separated from core infrastructure but enforced globally at the subscription level.
+The architecture utilizes a **Decoupled Governance Pattern**. A centralized GitHub Actions pipeline orchestrates deployments across different service domains, ensuring that observability logic is separated from core infrastructure but enforced globally at the subscription level.
 
 ### Teams and Services
-The repository is structured to support a multi-team environment through Service Isolation:
+The repository is structured to support a multi-team environment through **Service Isolation**:
 * **Shared Services Team**: Manages bootstrap resources, including the initial Resource Groups and Storage Accounts for every team.
 * **Observability Team**: Owns the centralized Log Analytics Workspace and reusable Terraform modules to deploy observability components such as Data Collection Rules (DCRs), alert rules, and action groups.
 * **Workload Teams**: Consume these pre-governed services to ensure their specific apps (IaaS/PaaS) are compliant upon deployment.
 
 ### Tech Stack
-* **Infrastructure Deployment**: Terraform utilizing a modularized structure.
-* **CI/CD**: GitHub Actions with path-based triggers and OIDC-based Azure authentication.
+* **Infrastructure Deployment**: **Terraform utilizing** a modularized structure.
+* **CI/CD**: **GitHub Actions** with path-based triggers and OIDC-based Azure authentication.
 * **Enforcement**: Azure Policy (DeployIfNotExists), Azure Monitoring & Dependency Agents, Application Insights SDKs, and Terraform module deployment of alert rules and action groups for automated observability enablement.
 * **Observability & Monitoring**: Azure Monitor, Log Analytics (LAW), Data Collection Rules, VM Insights, and Application Insights.
 
@@ -30,7 +30,7 @@ The repository is structured to support a multi-team environment through Service
 The project utilizes OpenID Connect (OIDC) to establish federated identity between GitHub Actions and Azure. This eliminates the need for long-lived secrets, aligning with enterprise security standards for platform automation.
 
 ### Shared State Storage
-Implements a hierarchical state strategy where a centralized backend is used for bootstrapping shared services. To ensure autonomy and isolation, individual teams manage their own backend state storage for their specific environments.
+Implements a hierarchical state strategy where a centralized backend is used for bootstrapping shared services. To ensure autonomy and isolation, individual teams manage their own backend state storage for their specific environments. To eliminate the risk of long-lived secrets, all backend access is "keyless." By establishing **OIDC Federated Credentials** between GitHub Actions and Azure, the pipeline authenticates using short-lived tokens. Permissions are strictly enforced via **RBAC** (Storage Blob Data Contributor), ensuring a "Secretless" security posture that adheres to the Principle of Least Privilege.
 
 ### Resources and Modularized Components by Owner
 
@@ -52,7 +52,7 @@ Implements a hierarchical state strategy where a centralized backend is used for
 ## Key Outcomes – Full-Stack Azure-Native Observability
 
 ### Centralized Log Analytics
-We deployed a regional Central Log Analytics Workspace as the primary telemetry sink. Configuration includes optimised retention periods to balance operational requirements with cost-efficiency.
+We deployed a Central Log Analytics Workspace as the primary and unified telemetry sink. Configuration includes optimised retention periods to balance operational requirements with cost-efficiency.
 
 *(Screenshot to be placed here)*
 
@@ -78,4 +78,4 @@ Creation of interactive operational dashboards in Azure Workbooks to present hea
 ---
 
 ### SRE Alignment
-This project directly supports SRE-driven practices by reducing operational toil through automated compliance enforcement and ensuring that telemetry data is available for SLO and Error Budget tracking.
+This project directly supports SRE-driven practices by reducing operational toil through automated compliance enforcement and ensuring that application telemetry data is available to build reliable and resilient systems by driving down Mean-Time-To-Detect & Mean-Time-To-Resolve and establishing SLO and Error Budget tracking.
