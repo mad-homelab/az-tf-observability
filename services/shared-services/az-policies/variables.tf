@@ -18,6 +18,7 @@ variable "location" {
 
 variable "policy_configs" {
   type = map(object({
+    resource_type = string
     display_name = string
     policy_id    = string
     roles        = map(string)
