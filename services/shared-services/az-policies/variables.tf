@@ -16,4 +16,12 @@ variable "location" {
   description = "The Azure region where the policy assignment and remediation will reside."
 }
 
-
+variable "policy_configs" {
+  type = map(object({
+    display_name = string
+    policy_id    = string
+    roles        = map(string)
+  }))
+  description = "Map of objects corresponding to each policy and remediation configurations."
+  default     = {}
+}

@@ -15,7 +15,9 @@ resource "azurerm_subscription_policy_assignment" "this" {
 
 resource "azurerm_role_assignment" "remediation" {
   for_each             = toset(var.role_definition_ids)
+  
+  # Using the main (only) Sub for now, but will need to become flexible for more complex environments
   scope                = var.subscription_id
-  role_definition_id   = "/providers/microsoft.authorization/roleDefinitions/${each.value}"
+  role_definition_id   = each.value
   principal_id         = azurerm_subscription_policy_assignment.this.identity[0].principal_id
 }
