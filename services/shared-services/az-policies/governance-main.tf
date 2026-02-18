@@ -3,7 +3,6 @@ locals {
   law_resource_group = "observability-core-rg-${var.environment}"  
 
   policy_name = "audit-${var.resource_type}-platform"
-  policy_display_name = var.policy_display_name
 
   # Policy Display Name Library (Constants)
   policy_name_library = {
@@ -28,8 +27,8 @@ data "azurerm_subscription" "current" {}
 
 # Find central log analytics workspace
 data "azurerm_log_analytics_workspace" "central" {
-  name                = locals.law_name
-  resource_group_name = locals.law_resource_group
+  name                = local.law_name
+  resource_group_name = local.law_resource_group
 }
 
 module "policy_storage_platform" {
