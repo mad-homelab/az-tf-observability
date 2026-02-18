@@ -11,7 +11,7 @@ output "Policy_Manifest" {
       target_scope     = config.scope
       
       # Info from the remediation resource
-      remediation_name = azurerm_subscription_policy_remediation.remediations[key].name
+      remediation_name = try(azurerm_subscription_policy_remediation.remediations[key].name, "N/A (Audit Only)")
       
       resource_type_tag = var.policy_configs[key].resource_type
       assigned_roles    = keys(var.policy_configs[key].roles)
