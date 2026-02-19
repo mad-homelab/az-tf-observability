@@ -7,6 +7,7 @@ on:
       - release
     paths:
       - services/shared-services/az-policies/**
+      - services/shared-services/env/dev/azpolicy.tfvars
       - .github/workflows/terraform-sharedsvcs-azpolicy.yml
 
   workflow_dispatch:
