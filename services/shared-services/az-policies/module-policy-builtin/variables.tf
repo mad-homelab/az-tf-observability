@@ -28,7 +28,7 @@ variable "law_id" {
   description = "The resource ID of the central Log Analytics Workspace."
 }
 
-variable "role_definition_ids" {
+variable "role_definition_name" {
   type        = list(string)
   default     = []
   description = "List of Role IDs granted to the policy for remediation tasks. Ensure you assign roles with the minimum privilege required to accomplish the tasks."

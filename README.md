@@ -26,6 +26,18 @@ The repository is structured to support a multi-team enterprise environment:
 *   **Security:** OpenID Connect (OIDC) for identity federation (Zero Trust).
 *   **Enforcement:** Azure Policy (`DeployIfNotExists`), Azure Monitor Agents (AMA).
 
+## 📁 Repo Reference
+
+To explore the underlying Infrastructure-as-Code (IaC) implementation, navigate through the core components below:
+
+| Component | Responsibility | Technical Documentation |
+| :--- | :--- | :--- |
+| **Resource Group Module** | Standardized resource group deployment and tagging. | [Module README](modules/resource-group/README.md) |
+| **State Storage Module** | Reusable module for secure, secretless backend storage. | [Module README](modules/state-storage/README.md) |
+| **Backend Provisioning** | Orchestration of the Terraform remote state infrastructure. | [Provisioning README](services/shared-services/backend-state-provisioning/README.md) |
+| **Observability Core** | Deployment of the centralized Log Analytics Workspace. | [LAW README](services/observability-core/log-analytics-workspace/README.md) |
+| **Governance Engine** | Centralized Azure Policy (`DINE`) and Remediation logic. | [AzPolicy README](services/shared-services/az-policies/README.md) |
+
 ---
 
 ## 🔒 Design Decisions
@@ -41,7 +53,7 @@ Implements a hierarchical state strategy where a centralized backend is used for
 
 ---
 
-## 📊 Key Outcomes: Full-Stack Visibility
+## 📊 Key Outcomes: Full-Stack Visibility `(Active Development)`
 This framework is designed to provide visibility beyond standard IaaS, covering the entire enterprise stack:
 
 ### 1. Centralized Log Analytics (The Hub)
