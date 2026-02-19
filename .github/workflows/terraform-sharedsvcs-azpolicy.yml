@@ -27,6 +27,7 @@ jobs:
   terraform_plan:
     name: "Setup Terraform, Init, Plan"
     if: github.ref == 'refs/heads/dev'
+    environment: dev 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
