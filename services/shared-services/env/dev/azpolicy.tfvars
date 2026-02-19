@@ -1,10 +1,9 @@
 environment = "dev"
-resource_type = "stg"
 location = "australiasoutheast"
 
 policy_configs = {
   "storage" = {
-    resource_type = "stg"
+    policy_name = "stgmetrics"
     display_name = "[Built-in] Storage Account Metrics"
     policy_id    = "/providers/Microsoft.Authorization/policyDefinitions/59759c62-9a22-4cdf-ae64-074495983fef"
     
