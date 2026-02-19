@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+      - release
     paths:
       - services/shared-services/az-policies/**
       - .github/workflows/terraform-sharedsvcs-azpolicy.yml
@@ -20,12 +21,30 @@ env:
   ARM_CLIENT_ID: ${{ secrets.SHARED_SERVICES_CLIENT_ID }}
   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
+  TF_WORKING_DIR: 'services/shared-services/az-policies'
+  
 jobs:
-  terraform:
-    environment: dev
+  terraform_plan:
+    name: "Setup Terraform, Init, Plan"
+    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
 
+      - name: Terraform Init & Plan
+        run: |
+          terraform -chdir=${{ env.TF_WORKING_DIR }} init -backend-config=backend.dev.hcl -reconfigure
+          terraform -chdir=${{ env.TF_WORKING_DIR }} plan -var-file=../env/dev/azpolicy.tfvars
+
+  terraform_apply:
+    name: "Setup Terraform, Init, Plan, and APPLY"
+    if: startsWith(github.ref, 'refs/heads/release/')
+    environment: dev 
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -36,16 +55,10 @@ jobs:
 
       - name: Terraform Init
         run: |
-          terraform -chdir=services/shared-services/az-policies init \
-            -backend-config=backend.dev.hcl \
-            -reconfigure
+          terraform -chdir=${{ env.TF_WORKING_DIR }} init -backend-config=backend.dev.hcl -reconfigure
 
-      - name: Terraform Plan
+      # Plan and Apply happen in the same runner session
+      - name: Terraform Execute
         run: |
-          terraform -chdir=services/shared-services/az-policies plan \
-            -var-file=../env/dev/azpolicy.tfvars 
-
-      # - name: Terraform Apply
-      #   run: |
-      #     terraform -chdir=services/shared-services/az-policies apply \
-      #       -var-file=../env/dev/azpolicy.tfvars -auto-approve
+          terraform -chdir=${{ env.TF_WORKING_DIR }} plan -var-file=../env/dev/azpolicy.tfvars -out=tfplan
+          terraform -chdir=${{ env.TF_WORKING_DIR }} apply -auto-approve tfplan
