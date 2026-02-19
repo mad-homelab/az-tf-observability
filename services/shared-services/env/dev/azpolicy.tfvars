@@ -12,7 +12,7 @@ policy_configs = {
     enable_remediation = true
     # 2. Enter roles only after conducting an Audit
     roles        = {
-      monitoring_contributor = "/providers/Microsoft.Authorization/roleDefinitions/749f88d5-ef69-4578-8f91-690740a61031"
+      monitoring_contributor = "Monitoring Contributor"
       # Add additional roles here if needed for this remediation
     }
   }

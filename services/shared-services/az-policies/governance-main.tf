@@ -20,7 +20,7 @@ module "policy_assignments" {
   display_name      = each.value.display_name
   subscription_id   = data.azurerm_subscription.current.id
   builtin_policy_id = each.value.policy_id
-  role_definition_ids = values(each.value.roles)
+  role_definition_name = values(each.value.roles)
   location          = var.location  
   # Pass central log analytics workspace id
   law_id            = data.azurerm_log_analytics_workspace.central.id
