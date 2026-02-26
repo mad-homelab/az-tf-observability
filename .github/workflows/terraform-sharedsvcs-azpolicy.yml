@@ -29,7 +29,7 @@ jobs:
     name: "Setup Terraform, Init, Plan"
     if: github.ref == 'refs/heads/dev'
     environment: dev 
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
       - name: Setup Terraform
@@ -46,7 +46,7 @@ jobs:
     name: "Setup Terraform, Init, Plan, and APPLY"
     if: startsWith(github.ref, 'refs/heads/release')
     environment: dev 
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
 
